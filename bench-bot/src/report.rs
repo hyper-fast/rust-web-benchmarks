@@ -33,7 +33,7 @@ impl Report {
         res.push_str(TABLE_SEPARATOR);
 
         for r in reports {
-            let row = format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|",
+            let row = format!("|{}|{:.4}ms|{:.4}ms|{:.4}ms|{}|{}|{}|{}|{}|",
                               r.framework_name,
                               r.metrics.latency.avg,
                               r.metrics.latency.std_env,
@@ -61,26 +61,16 @@ pub struct Metrics {
     transfer: Transfer,
 }
 
-// parse std output from rewrk result
-// something like this:
-//      Beginning round 1...
-//      Benchmarking 500 connections @ http://127.0.0.1:3000 for 30 second(s)
-//        Latencies:
-//          Avg      Stdev    Min      Max
-//          0.50ms   1.22ms   0.02ms   41.93ms
-//        Requests:
-//          Total: 30178057 Req/Sec: 1006342.33
-//        Transfer:
-//          Total: 3.65 GB Transfer Rate: 124.76 MB/Sec
+// parse std output from wrk result
 impl FromStr for Metrics {
     type Err = MetricsError;
 
     fn from_str(input: &str) -> Result<Self, Self::Err> {
-        let latency_regex = Regex::new(r"Latency\s+(\d+\.\d+us)\s+(\d+\.\d+us)\s+(\d+\.\d+ms)").unwrap();
+        let latency_regex = Regex::new(r"Latency\s+(\d+\.\d+(?:us|ms|s))\s+(\d+\.\d+(?:us|ms|s))\s+(\d+\.\d+(?:us|ms|s))").unwrap();
         let total_requests_regex = Regex::new(r"(\d+) requests in").unwrap();
-        let total_data_read_regex = Regex::new(r", (\d+\.\d+GB) read").unwrap();
+        let total_data_read_regex = Regex::new(r", (\d+\.\d+[GMK]?B) read").unwrap();
         let req_per_sec_regex = Regex::new(r"Requests/sec: (\d+\.\d+)").unwrap();
-        let transfer_per_sec_regex = Regex::new(r"Transfer/sec:\s+(\d+\.\d+MB)").unwrap();
+        let transfer_per_sec_regex = Regex::new(r"Transfer/sec:\s+(\d+\.\d+[GMK]?B)").unwrap();
 
         let avg_latency = latency_regex.captures(input).and_then(|cap| cap.get(1)).map(|m| m.as_str().to_string());
         let stddev_latency = latency_regex.captures(input).and_then(|cap| cap.get(2)).map(|m| m.as_str().to_string());
@@ -93,9 +83,9 @@ impl FromStr for Metrics {
 
         // Constructing structs from the local variables
         let latency = Latency {
-            avg: avg_latency.unwrap_or_default(),
-            std_env: stddev_latency.unwrap_or_default(),
-            max: max_latency.unwrap_or_default(),
+            avg: convert_to_ms(&avg_latency.unwrap_or_default()),
+            std_env: convert_to_ms(&stddev_latency.unwrap_or_default()),
+            max: convert_to_ms(&max_latency.unwrap_or_default()),
         };
 
         let request = Request {
@@ -118,33 +108,10 @@ impl FromStr for Metrics {
 
 #[derive(PartialEq, Debug)]
 struct Latency {
-    avg: String,
-    std_env: String,
-    // min: String,
-    max: String,
+    avg: f64,
+    std_env: f64,
+    max: f64,
 }
-
-// parse for
-// 0.50ms   1.22ms   0.02ms   41.93ms
-// impl FromStr for Latency {
-//     type Err = MetricsError;
-//
-//     fn from_str(value: &str) -> Result<Self, Self::Err> {
-//         let parts = value.trim().split_whitespace()
-//             .collect::<Vec<&str>>();
-//
-//         if let [avg, std_env, min, max, ..] = parts[..] {
-//             Ok(Self {
-//                 avg: avg.to_string(),
-//                 std_env: std_env.to_string(),
-//                 min: min.to_string(),
-//                 max: max.to_string(),
-//             })
-//         } else {
-//             Err(MetricsError::ParseError)
-//         }
-//     }
-// }
 
 #[derive(PartialEq, Debug)]
 struct Request {
@@ -152,53 +119,32 @@ struct Request {
     req_per_sec: String,
 }
 
-// parse for
-// Total: 30178057 Req/Sec: 1006342.33
-// impl FromStr for Request {
-//     type Err = MetricsError;
-//
-//     fn from_str(value: &str) -> Result<Self, Self::Err> {
-//         let parts = value.trim().split_whitespace()
-//             .collect::<Vec<&str>>();
-//
-//         // ["Total:", total, "Req/Sec:", rps]
-//         if let [_, total, _, req_per_sec, ..] = parts[..] {
-//             Ok(Self {
-//                 total: total.to_string(),
-//                 req_per_sec: req_per_sec.to_string(),
-//             })
-//         } else {
-//             Err(MetricsError::ParseError)
-//         }
-//     }
-// }
-
 #[derive(PartialEq, Debug)]
 struct Transfer {
     total: String,
     rate: String,
 }
 
-// parse for
-// Total: 3.65 GB Transfer Rate: 124.76 MB/Sec
-// impl FromStr for Transfer {
-//     type Err = MetricsError;
-//
-//     fn from_str(value: &str) -> Result<Self, Self::Err> {
-//         let parts = value.trim().split_whitespace()
-//             .collect::<Vec<&str>>();
-//
-//         // ["Total:", total, total_unit, "Transfer", "Rate:", rate, rate_unit]
-//         if let [_, total, total_unit, _, _, rate, rate_unit, ..] = parts[..] {
-//             Ok(Self {
-//                 total: format!("{}{}", total, total_unit),
-//                 rate: format!("{}{}", rate, rate_unit),
-//             })
-//         } else {
-//             Err(MetricsError::ParseError)
-//         }
-//     }
-// }
+fn convert_to_ms(latency: &str) -> f64 {
+    let regex = Regex::new(r"(\d+\.\d+)(us|ms|s)").unwrap();
+
+    if let Some(captures) = regex.captures(latency) {
+        let value: f64 = captures.get(1).map_or("0.0", |m| m.as_str()).parse().unwrap_or(0.0);
+        let unit = captures.get(2).map_or("ms", |m| m.as_str());
+
+        let converted = match unit {
+            "us" => value / 1000.0, // microseconds to milliseconds
+            "s" => value * 1000.0, // seconds to milliseconds
+            "ms" => value, // already in milliseconds
+            _ => 0.0, // invalid or unknown unit
+        };
+
+        // Round off to 4 decimal places
+        return (converted * 10_000.0).round() / 10_000.0;
+    }
+
+    0.0
+}
 
 #[cfg(test)]
 mod tests {
@@ -237,8 +183,8 @@ mod tests {
             let expect = r#"
 | Framework Name | Latency.Avg | Latency.Stdev | Latency.Max | Request.Total | Request.Req/Sec | Transfer.Total | Transfer.Rate | Max. Memory Usage |
 |---|---|---|---|---|---|---|---|---|---|
-|actix-web|814.27us|498.47us|8.42ms|17275966|574184.09|1.95GB|66.26MB|13.7MB|
-|axum|392.28us|199.70us|4.67ms|14134927|469597.42|1.59GB|54.19MB|12.4MB|
+|actix-web|0.8143ms|0.4985ms|8.4200ms|17275966|574184.09|1.95GB|66.26MB|13.7MB|
+|axum|0.3923ms|0.1997ms|4.6700ms|14134927|469597.42|1.59GB|54.19MB|12.4MB|
 "#.trim();
 
             assert_eq!(actual, expect);
@@ -267,10 +213,10 @@ Transfer/sec:     66.26MB
             let expect = Ok(
                 Metrics {
                     latency: Latency {
-                        avg: "814.27us".to_string(),
-                        std_env: "498.47us".to_string(),
+                        avg: 0.8143,
+                        std_env: 0.4985,
                         // min: "0.02ms".to_string(),
-                        max: "8.42ms".to_string(),
+                        max: 8.4200,
                     },
                     request: Request {
                         total: "17275966".to_string(),
@@ -285,84 +231,4 @@ Transfer/sec:     66.26MB
             assert_eq!(actual, expect);
         }
     }
-
-    // mod latency {
-    //     use super::*;
-    //
-    //     #[test]
-    //     fn ok() {
-    //         let given = "814.27us  498.47us   8.42ms   69.23%";
-    //         let actual = given.parse::<Latency>();
-    //
-    //         let expect = Ok(Latency {
-    //             avg: "814.27us".to_string(),
-    //             std_env: "498.47us".to_string(),
-    //             // min: "0.02ms".to_string(),
-    //             max: "8.42ms".to_string(),
-    //         });
-    //
-    //         assert_eq!(actual, expect);
-    //     }
-    //
-    //     #[test]
-    //     fn err() {
-    //         let given = "0.50ms   1.22ms   0.02ms";
-    //         let actual = given.parse::<Latency>();
-    //         let expect = Err(MetricsError::ParseError);
-    //
-    //         assert_eq!(actual, expect);
-    //     }
-    // }
-    //
-    // mod request {
-    //     use super::*;
-    //
-    //     #[test]
-    //     fn ok() {
-    //         let given = "Total: 30178057 Req/Sec: 1006342.33";
-    //         let actual = given.parse::<Request>();
-    //
-    //         let expect = Ok(Request {
-    //             total: "30178057".to_string(),
-    //             req_per_sec: "1006342.33".to_string(),
-    //         });
-    //
-    //         assert_eq!(actual, expect);
-    //     }
-    //
-    //     #[test]
-    //     fn err() {
-    //         let given = "Total: 30178057";
-    //         let actual = given.parse::<Request>();
-    //         let expect = Err(MetricsError::ParseError);
-    //
-    //         assert_eq!(actual, expect);
-    //     }
-    // }
-    //
-    // mod transfer {
-    //     use super::*;
-    //
-    //     #[test]
-    //     fn ok() {
-    //         let given = "Total: 3.65 GB Transfer Rate: 124.76 MB/Sec";
-    //         let actual = given.parse::<Transfer>();
-    //
-    //         let expect = Ok(Transfer {
-    //             total: "3.65GB".to_string(),
-    //             rate: "124.76MB/Sec".to_string(),
-    //         });
-    //
-    //         assert_eq!(actual, expect);
-    //     }
-    //
-    //     #[test]
-    //     fn err() {
-    //         let given = "Total: 3.65 GB";
-    //         let actual = given.parse::<Request>();
-    //         let expect = Err(MetricsError::ParseError);
-    //
-    //         assert_eq!(actual, expect);
-    //     }
-    // }
 }
