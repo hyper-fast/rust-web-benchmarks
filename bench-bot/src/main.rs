@@ -114,8 +114,6 @@ fn main() {
         &conn_count,
         "--duration",
         &duration,
-        " ",
-        &args.url,
     ];
 
     let mut bench_command = "wrk".to_owned();
@@ -124,8 +122,10 @@ fn main() {
         bench_command.push_str(arg);
     }
 
-    println!("Benchmark Command: {}", bench_command);
+    bench_command.push(' ');
+    bench_command.push_str(&args.url);
 
+    println!("Benchmark Command: {}", bench_command);
 
     let mut base_md = Markdown::new();
 
@@ -182,7 +182,7 @@ fn main() {
                 max_memory
             });
 
-            let output = Command::new("wrk").args(wrk_args).output().unwrap();
+            let output = Command::new("wrk").args(wrk_args).arg(&args.url).output().unwrap();
 
             tx.send(()).unwrap();
             let _ = server.kill();
