@@ -20,16 +20,16 @@ Respond "Hello, World!" to every request on "/" endpoint.
 - [astra](benchmark/hello-world/astra/src/main.rs)
 - [axum](benchmark/hello-world/axum/src/main.rs)
 - [hyper](benchmark/hello-world/hyper/src/main.rs)
+- [hyper-fast](benchmark/hello-world/hyper-fast/src/main.rs)
 - [ntex](benchmark/hello-world/ntex/src/main.rs)
 - [poem](benchmark/hello-world/poem/src/main.rs)
 - [rocket](benchmark/hello-world/rocket/src/main.rs)
 - [salvo](benchmark/hello-world/salvo/src/main.rs)
-- [thruster](benchmark/hello-world/thruster/src/main.rs)
 - [tide](benchmark/hello-world/tide/src/main.rs)
 - [viz](benchmark/hello-world/viz/src/main.rs)
 - [warp](benchmark/hello-world/warp/src/main.rs)
 
 See [results](result/hello-world-AMD-EPYC-7B13.md).
 
-[rewrk]: https://github.com/ChillFish8/rewrk
+[wrk]: https://github.com/wg/wrk
 [rust]: https://github.com/rust-lang/rust
