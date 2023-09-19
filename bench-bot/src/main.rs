@@ -123,7 +123,10 @@ fn main() {
     for arg in wrk_args {
         // bench_command.push(' ');
         bench_command.push_str(arg);
+        bench_command.push(' ');
     }
+
+    println!("Benchmark Command: {}", bench_command);
 
 
     let mut base_md = Markdown::new();
