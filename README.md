@@ -1,12 +1,12 @@
 # Web Framework Benchmarks
 
-Benchmarking web frameworks written in [rust] with [rewrk] tool.
+Benchmarking web frameworks written in [rust] with [wrk] tool.
 
 More requests(`Req/Sec`) in the given time frame means that framework performs
 better.  Which means it would require less (CPU) resources to achieve the same
 thing.
 
-`Transfer` in [rewrk] output means received bytes from all of the responses.
+`Transfer` in [wrk] output means received bytes from all the responses.
 Some frameworks include extra headers by default which results in higher count.
 This shouldn't impact overall performance much.
 
