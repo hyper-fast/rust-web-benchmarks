@@ -69,7 +69,7 @@ impl FromStr for Metrics {
         let latency_regex = Regex::new(r"Latency\s+(\d+\.\d+(?:us|ms|s))\s+(\d+\.\d+(?:us|ms|s))\s+(\d+\.\d+(?:us|ms|s))").unwrap();
         let total_requests_regex = Regex::new(r"(\d+) requests in").unwrap();
         let total_data_read_regex = Regex::new(r", (\d+\.\d+[GMK]?B) read").unwrap();
-        let req_per_sec_regex = Regex::new(r"Requests/sec: (\d+\.\d+)").unwrap();
+        let req_per_sec_regex = Regex::new(r"Requests/sec:\s+(\d+\.\d+)").unwrap();
         let transfer_per_sec_regex = Regex::new(r"Transfer/sec:\s+(\d+\.\d+[GMK]?B)").unwrap();
 
         let avg_latency = latency_regex.captures(input).and_then(|cap| cap.get(1)).map(|m| m.as_str().to_string());
