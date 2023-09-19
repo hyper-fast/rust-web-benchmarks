@@ -1,3 +1,5 @@
 /benchmark/target
 /bench-bot/target
 Cargo.lock
+.idea/
+.DS_Store
