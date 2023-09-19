@@ -107,20 +107,20 @@ fn main() {
     let cd = args.cd;
     let members_len = members.len();
 
-    let rewrk_args = [
+    let wrk_args = [
         "-t",
         &cpu_count,
         "-c",
         &conn_count,
         "-d",
         &duration,
-        "-h",
+        " ",
         &args.url,
     ];
 
-    let mut bench_command = "rewrk".to_owned();
-    for arg in rewrk_args {
-        bench_command.push(' ');
+    let mut bench_command = "wrk".to_owned();
+    for arg in wrk_args {
+        // bench_command.push(' ');
         bench_command.push_str(arg);
     }
 
@@ -179,7 +179,7 @@ fn main() {
                 max_memory
             });
 
-            let output = Command::new("rewrk").args(rewrk_args).output().unwrap();
+            let output = Command::new("wrk").args(wrk_args).output().unwrap();
 
             tx.send(()).unwrap();
             let _ = server.kill();
