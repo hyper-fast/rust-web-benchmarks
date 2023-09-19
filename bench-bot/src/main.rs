@@ -119,10 +119,12 @@ fn main() {
     ];
 
     let mut bench_command = "wrk".to_owned();
+    bench_command.push(' ');
     for arg in wrk_args {
         // bench_command.push(' ');
         bench_command.push_str(arg);
     }
+
 
     let mut base_md = Markdown::new();
 
