@@ -114,7 +114,7 @@ fn main() {
         &conn_count,
         "--duration",
         &duration,
-        "",
+        " ",
         &args.url,
     ];
 
