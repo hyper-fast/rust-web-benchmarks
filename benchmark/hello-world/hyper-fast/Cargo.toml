@@ -1,0 +1,12 @@
+[package]
+name = "hello-world-hyper-fast"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+hyper-fast = { version = "0.3.2", features = [] }
+async-trait = "0.1.73"
+http = "0.2.9"
+hyper = "0.14.27"
+tokio = "1.32.0"
+anyhow = "1.0.75"
