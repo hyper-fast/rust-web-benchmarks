@@ -108,22 +108,19 @@ fn main() {
     let members_len = members.len();
 
     let wrk_args = [
-        "-t",
+        " -t",
         &cpu_count,
-        "-c",
+        " -c",
         &conn_count,
-        "-d",
+        " -d",
         &duration,
         " ",
         &args.url,
     ];
 
     let mut bench_command = "wrk".to_owned();
-    bench_command.push(' ');
     for arg in wrk_args {
-        // bench_command.push(' ');
         bench_command.push_str(arg);
-        bench_command.push(' ');
     }
 
     println!("Benchmark Command: {}", bench_command);
