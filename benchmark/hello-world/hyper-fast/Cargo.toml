@@ -4,10 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-hyper-fast = { version = "0.3.4", features = ["uring"] }
+hyper-fast = { version = "0.3.5" }
 async-trait = "0.1.73"
 http = "0.2.9"
 hyper = "0.14.27"
 tokio = "1.32.0"
 anyhow = "1.0.75"
-tokio-uring = { version = "0.4.0" }

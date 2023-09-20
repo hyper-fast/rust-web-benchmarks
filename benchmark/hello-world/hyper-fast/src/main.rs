@@ -6,14 +6,9 @@ use hyper::Body;
 use hyper_fast::server::{ApiError, HttpResponse, HttpRoute, Service};
 use hyper_fast::server::{ServiceBuilder, ServiceDaemon, start_http_server};
 
-fn main() -> Result<(), anyhow::Error> {
-    tokio_uring::start(main_inner())?;
-
-    Ok(())
-}
-
-async fn main_inner() -> Result<(), anyhow::Error> {
-    start_http_server("127.0.0.1:6464", ExampleServiceBuilder {}).await
+#[tokio::main(flavor = "multi_thread")]
+async fn main() -> Result<(), anyhow::Error> {
+    start_http_server("127.0.0.1:3000", ExampleServiceBuilder {}).await
 }
 
 pub struct ExampleService {
