@@ -18,37 +18,37 @@ wrk --threads 16 --connections 500 --duration 30s --latency http://127.0.0.1:300
 
 | Framework Name | Latency.Avg | Latency.Stdev | Latency.50P | Latency.75P | Latency.90P | Latency.99P | Latency.Max | Request.Total | Request.Req/Sec | Transfer.Total | Transfer.Rate | Max. Memory Usage |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-|actix-web|0.9900ms|0.5968ms|0.9600ms|1.0100ms|1.0700ms|2.5300ms|37.2600ms|15610838|518638.78|1.89GB|64.30MB|11.8MB|
-|astra|1.5100ms|1.3400ms|1.5100ms|1.5300ms|1.5500ms|1.5900ms|209.0300ms|4755256|157982.91|485.24MB|16.12MB|15.0MB|
-|axum|0.8700ms|1.1000ms|0.7320ms|1.1100ms|1.5700ms|2.7000ms|207.0400ms|16458252|547492.17|1.99GB|67.88MB|11.9MB|
-|hyper|0.7447ms|1.1200ms|0.6270ms|0.9400ms|1.3300ms|2.3000ms|205.9800ms|19195822|638763.59|1.59GB|54.22MB|12.3MB|
-|hyper-fast|0.8459ms|1.4400ms|0.7050ms|1.0700ms|1.5200ms|2.6200ms|205.3800ms|17142903|570419.91|1.93GB|65.82MB|13.2MB|
-|ntex|1.0800ms|0.4858ms|1.0700ms|1.1400ms|1.2300ms|2.0500ms|47.5500ms|13975017|464287.05|1.68GB|57.12MB|10.6MB|
-|poem|0.8900ms|0.5585ms|0.7600ms|1.1400ms|1.6100ms|2.7400ms|17.5800ms|16237728|540032.32|1.97GB|66.95MB|16.2MB|
-|rocket|2.1500ms|1.1000ms|2.0200ms|2.7900ms|3.6100ms|5.3100ms|20.3000ms|7013344|232999.94|1.62GB|55.11MB|19.5MB|
-|salvo|0.8500ms|0.8009ms|0.7130ms|1.0900ms|1.5500ms|2.7100ms|204.7500ms|16927496|563017.05|2.05GB|69.80MB|14.1MB|
-|tide|45.5800ms|3.0700ms|44.1700ms|47.9600ms|48.0900ms|48.5200ms|205.9800ms|322087|10718.69|39.68MB|1.32MB|22.2MB|
-|viz|0.8115ms|0.7931ms|0.6870ms|1.0500ms|1.4800ms|2.4900ms|207.4400ms|17592029|585428.51|2.13GB|72.58MB|11.6MB|
-|warp|0.7891ms|1.8300ms|0.6530ms|0.9900ms|1.3900ms|2.3700ms|208.3000ms|18446331|613532.31|2.23GB|76.06MB|12.5MB|
+|actix-web|1.0000ms|0.8048ms|0.9400ms|0.9900ms|1.0600ms|4.4900ms|51.2400ms|15992965|531324.93|1.94GB|65.87MB|12.4MB|
+|astra|1.5200ms|1.4500ms|1.5100ms|1.5400ms|1.5600ms|1.6200ms|208.5200ms|4748007|157744.59|484.50MB|16.10MB|15.0MB|
+|axum|0.8700ms|1.0300ms|0.7310ms|1.1100ms|1.5600ms|2.6800ms|211.9300ms|16602042|552419.53|2.01GB|68.49MB|11.9MB|
+|hyper|0.7531ms|0.9800ms|0.6300ms|0.9500ms|1.3600ms|2.4000ms|207.3800ms|19094963|635430.27|1.58GB|53.93MB|12.1MB|
+|hyper-fast|0.8336ms|1.3000ms|0.6980ms|1.0600ms|1.5000ms|2.5600ms|205.7400ms|17264126|574038.16|1.95GB|66.24MB|13.4MB|
+|ntex|1.1400ms|1.0700ms|1.0700ms|1.1500ms|1.2600ms|5.3500ms|48.0100ms|14085278|467958.11|1.69GB|57.57MB|11.0MB|
+|poem|0.8900ms|0.5567ms|0.7590ms|1.1400ms|1.6000ms|2.7500ms|16.7800ms|16278926|541594.26|1.97GB|67.15MB|15.3MB|
+|rocket|2.1400ms|1.0900ms|2.0200ms|2.7800ms|3.5800ms|5.2500ms|20.6600ms|7045807|234082.63|1.63GB|55.36MB|19.3MB|
+|salvo|0.8600ms|0.9200ms|0.7140ms|1.0900ms|1.5600ms|2.8000ms|208.5400ms|16879365|561560.08|2.04GB|69.62MB|13.5MB|
+|tide|45.5100ms|3.1000ms|44.1500ms|47.9500ms|48.0800ms|48.5800ms|207.2900ms|322837|10747.70|39.77MB|1.32MB|22.4MB|
+|viz|0.8205ms|1.2500ms|0.6860ms|1.0500ms|1.4800ms|2.5100ms|210.7600ms|17524892|582996.01|2.12GB|72.28MB|11.5MB|
+|warp|0.7947ms|1.7500ms|0.6560ms|0.9900ms|1.4000ms|2.4300ms|204.8900ms|18342929|610378.11|2.22GB|75.67MB|12.6MB|
 
 ## actix-web
 
-Maximum Memory Usage: 11.8 MB
+Maximum Memory Usage: 12.4 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     0.99ms  596.84us  37.26ms   96.04%
-    Req/Sec    32.65k     2.08k   88.20k    94.75%
+    Latency     1.00ms  804.83us  51.24ms   96.00%
+    Req/Sec    33.45k     2.34k   87.90k    93.08%
   Latency Distribution
-     50%    0.96ms
-     75%    1.01ms
-     90%    1.07ms
-     99%    2.53ms
-  15610838 requests in 30.10s, 1.89GB read
-Requests/sec: 518638.78
-Transfer/sec:     64.30MB
+     50%    0.94ms
+     75%    0.99ms
+     90%    1.06ms
+     99%    4.49ms
+  15992965 requests in 30.10s, 1.94GB read
+Requests/sec: 531324.93
+Transfer/sec:     65.87MB
 ```
 
 ## astra
@@ -59,16 +59,16 @@ Maximum Memory Usage: 15.0 MB
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.51ms    1.34ms 209.03ms   99.96%
-    Req/Sec     9.94k     7.88k   39.01k    37.87%
+    Latency     1.52ms    1.45ms 208.52ms   99.97%
+    Req/Sec     9.92k     7.21k   37.11k    49.24%
   Latency Distribution
      50%    1.51ms
-     75%    1.53ms
-     90%    1.55ms
-     99%    1.59ms
-  4755256 requests in 30.10s, 485.24MB read
-Requests/sec: 157982.91
-Transfer/sec:     16.12MB
+     75%    1.54ms
+     90%    1.56ms
+     99%    1.62ms
+  4748007 requests in 30.10s, 484.50MB read
+Requests/sec: 157744.59
+Transfer/sec:     16.10MB
 ```
 
 ## axum
@@ -79,194 +79,194 @@ Maximum Memory Usage: 11.9 MB
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     0.87ms    1.10ms 207.04ms   95.55%
-    Req/Sec    34.43k     4.34k   69.22k    87.48%
+    Latency     0.87ms    1.03ms 211.93ms   95.04%
+    Req/Sec    34.74k     3.73k   60.89k    81.46%
   Latency Distribution
-     50%  732.00us
+     50%  731.00us
      75%    1.11ms
-     90%    1.57ms
-     99%    2.70ms
-  16458252 requests in 30.06s, 1.99GB read
-Requests/sec: 547492.17
-Transfer/sec:     67.88MB
+     90%    1.56ms
+     99%    2.68ms
+  16602042 requests in 30.05s, 2.01GB read
+Requests/sec: 552419.53
+Transfer/sec:     68.49MB
 ```
 
 ## hyper
 
-Maximum Memory Usage: 12.3 MB
+Maximum Memory Usage: 12.1 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   744.67us    1.12ms 205.98ms   97.20%
-    Req/Sec    40.17k     4.51k   89.61k    84.73%
+    Latency   753.10us    0.98ms 207.38ms   95.67%
+    Req/Sec    39.96k     4.43k   81.49k    80.38%
   Latency Distribution
-     50%  627.00us
-     75%    0.94ms
-     90%    1.33ms
-     99%    2.30ms
-  19195822 requests in 30.05s, 1.59GB read
-Requests/sec: 638763.59
-Transfer/sec:     54.22MB
+     50%  630.00us
+     75%    0.95ms
+     90%    1.36ms
+     99%    2.40ms
+  19094963 requests in 30.05s, 1.58GB read
+Requests/sec: 635430.27
+Transfer/sec:     53.93MB
 ```
 
 ## hyper-fast
 
-Maximum Memory Usage: 13.2 MB
+Maximum Memory Usage: 13.4 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   845.85us    1.44ms 205.38ms   98.01%
-    Req/Sec    35.87k     3.92k   70.05k    83.02%
+    Latency   833.61us    1.30ms 205.74ms   97.52%
+    Req/Sec    36.12k     3.96k  105.56k    85.69%
   Latency Distribution
-     50%  705.00us
-     75%    1.07ms
-     90%    1.52ms
-     99%    2.62ms
-  17142903 requests in 30.05s, 1.93GB read
-Requests/sec: 570419.91
-Transfer/sec:     65.82MB
+     50%  698.00us
+     75%    1.06ms
+     90%    1.50ms
+     99%    2.56ms
+  17264126 requests in 30.07s, 1.95GB read
+Requests/sec: 574038.16
+Transfer/sec:     66.24MB
 ```
 
 ## ntex
 
-Maximum Memory Usage: 10.6 MB
+Maximum Memory Usage: 11.0 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.08ms  485.83us  47.55ms   93.90%
-    Req/Sec    29.22k     2.65k  103.62k    97.25%
+    Latency     1.14ms    1.07ms  48.01ms   97.77%
+    Req/Sec    29.47k     2.24k   89.26k    91.75%
   Latency Distribution
      50%    1.07ms
-     75%    1.14ms
-     90%    1.23ms
-     99%    2.05ms
-  13975017 requests in 30.10s, 1.68GB read
-Requests/sec: 464287.05
-Transfer/sec:     57.12MB
+     75%    1.15ms
+     90%    1.26ms
+     99%    5.35ms
+  14085278 requests in 30.10s, 1.69GB read
+Requests/sec: 467958.11
+Transfer/sec:     57.57MB
 ```
 
 ## poem
 
-Maximum Memory Usage: 16.2 MB
+Maximum Memory Usage: 15.3 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     0.89ms  558.46us  17.58ms   76.46%
-    Req/Sec    33.97k     2.44k   90.51k    74.60%
+    Latency     0.89ms  556.73us  16.78ms   76.68%
+    Req/Sec    34.06k     2.33k   61.83k    71.88%
   Latency Distribution
-     50%  760.00us
+     50%  759.00us
      75%    1.14ms
-     90%    1.61ms
-     99%    2.74ms
-  16237728 requests in 30.07s, 1.97GB read
-Requests/sec: 540032.32
-Transfer/sec:     66.95MB
+     90%    1.60ms
+     99%    2.75ms
+  16278926 requests in 30.06s, 1.97GB read
+Requests/sec: 541594.26
+Transfer/sec:     67.15MB
 ```
 
 ## rocket
 
-Maximum Memory Usage: 19.5 MB
+Maximum Memory Usage: 19.3 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     2.15ms    1.10ms  20.30ms   69.85%
-    Req/Sec    14.64k   489.73    19.55k    81.47%
+    Latency     2.14ms    1.09ms  20.66ms   69.83%
+    Req/Sec    14.71k   392.50    20.66k    78.56%
   Latency Distribution
      50%    2.02ms
-     75%    2.79ms
-     90%    3.61ms
-     99%    5.31ms
-  7013344 requests in 30.10s, 1.62GB read
-Requests/sec: 232999.94
-Transfer/sec:     55.11MB
+     75%    2.78ms
+     90%    3.58ms
+     99%    5.25ms
+  7045807 requests in 30.10s, 1.63GB read
+Requests/sec: 234082.63
+Transfer/sec:     55.36MB
 ```
 
 ## salvo
 
-Maximum Memory Usage: 14.1 MB
+Maximum Memory Usage: 13.5 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     0.85ms  800.93us 204.75ms   91.69%
-    Req/Sec    35.41k     3.91k   85.17k    82.33%
+    Latency     0.86ms    0.92ms 208.54ms   93.40%
+    Req/Sec    35.31k     4.56k   77.57k    83.77%
   Latency Distribution
-     50%  713.00us
+     50%  714.00us
      75%    1.09ms
-     90%    1.55ms
-     99%    2.71ms
-  16927496 requests in 30.07s, 2.05GB read
-Requests/sec: 563017.05
-Transfer/sec:     69.80MB
+     90%    1.56ms
+     99%    2.80ms
+  16879365 requests in 30.06s, 2.04GB read
+Requests/sec: 561560.08
+Transfer/sec:     69.62MB
 ```
 
 ## tide
 
-Maximum Memory Usage: 22.2 MB
+Maximum Memory Usage: 22.4 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    45.58ms    3.07ms 205.98ms   99.39%
-    Req/Sec   673.90     84.06     0.93k    85.73%
+    Latency    45.51ms    3.10ms 207.29ms   98.97%
+    Req/Sec   675.49     90.63     0.94k    84.17%
   Latency Distribution
-     50%   44.17ms
-     75%   47.96ms
-     90%   48.09ms
-     99%   48.52ms
-  322087 requests in 30.05s, 39.68MB read
-Requests/sec:  10718.69
+     50%   44.15ms
+     75%   47.95ms
+     90%   48.08ms
+     99%   48.58ms
+  322837 requests in 30.04s, 39.77MB read
+Requests/sec:  10747.70
 Transfer/sec:      1.32MB
 ```
 
 ## viz
 
-Maximum Memory Usage: 11.6 MB
+Maximum Memory Usage: 11.5 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   811.51us  793.06us 207.44ms   92.53%
-    Req/Sec    36.81k     3.54k   69.14k    79.00%
+    Latency   820.49us    1.25ms 210.76ms   97.36%
+    Req/Sec    36.67k     3.51k   74.43k    79.88%
   Latency Distribution
-     50%  687.00us
+     50%  686.00us
      75%    1.05ms
      90%    1.48ms
-     99%    2.49ms
-  17592029 requests in 30.05s, 2.13GB read
-Requests/sec: 585428.51
-Transfer/sec:     72.58MB
+     99%    2.51ms
+  17524892 requests in 30.06s, 2.12GB read
+Requests/sec: 582996.01
+Transfer/sec:     72.28MB
 ```
 
 ## warp
 
-Maximum Memory Usage: 12.5 MB
+Maximum Memory Usage: 12.6 MB
 
 ```
 Running 30s test @ http://127.0.0.1:3000
   16 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   789.07us    1.83ms 208.30ms   99.42%
-    Req/Sec    38.60k     4.11k   97.33k    84.40%
+    Latency   794.72us    1.75ms 204.89ms   99.22%
+    Req/Sec    38.38k     4.22k   81.57k    82.71%
   Latency Distribution
-     50%  653.00us
+     50%  656.00us
      75%    0.99ms
-     90%    1.39ms
-     99%    2.37ms
-  18446331 requests in 30.07s, 2.23GB read
-Requests/sec: 613532.31
-Transfer/sec:     76.06MB
+     90%    1.40ms
+     99%    2.43ms
+  18342929 requests in 30.05s, 2.22GB read
+Requests/sec: 610378.11
+Transfer/sec:     75.67MB
 ```
